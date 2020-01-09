@@ -1,0 +1,15 @@
+{
+  "name": "video-shuffler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peter Varholak <peter.varholak@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hdmi-cec": "^0.2.8",
+    "node-vlc-http": "^1.0.1"
+  }
+}
