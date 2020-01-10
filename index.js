@@ -19,8 +19,9 @@ const vlc = new VLC({
   username: ''
 })
 
-const commander = new Commander(new CecMonitor())
-const remote = new Remote()
+const monitor = new CecMonitor(undefined, LogicalAddress.TV,)
+const commander = new Commander(monitor)
+const remote = new Remote(monitor)
 
 fs.readdirSync(MEDIA_DIR).forEach(file => {
   const media = `${MEDIA_DIR}/${file}`
@@ -28,11 +29,11 @@ fs.readdirSync(MEDIA_DIR).forEach(file => {
   vlc.addToQueue(media)
 })
 
-vlc.playlistNext()
-
 remote.on('keypress', evt => {
   console.log(`user pressed the key "${evt.key}" with code "${evt.keyCode}"`)
 })
 
 commander.setPowerState(PowerStatus.ON)
 commander.monitor.executeOperation(LogicalAddress.TV, OperationCode.REQUEST_ACTIVE_SOURCE)
+
+vlc.playlistNext()
