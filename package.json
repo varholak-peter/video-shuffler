@@ -9,7 +9,7 @@
   "author": "Peter Varholak <peter.varholak@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "hdmi-cec": "^0.2.8",
+    "@senzil/cec-monitor": "^2.1.0",
     "node-vlc-http": "^1.0.1"
   }
 }
