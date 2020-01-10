@@ -1,11 +1,16 @@
 // @ts-check
 
-var { CecMonitor, Commander, LogicalAddress, OperationCode, PowerStatus, Remote } = require('hdmi-cec')
+const fs = require('fs')
+const path = require('path')
+const { CecMonitor, Commander, LogicalAddress, OperationCode, PowerStatus, Remote } = require('hdmi-cec')
 const { VLC } = require('node-vlc-http')
 
 const host = process.env.HOST
+const mediaFolder = process.env.MEDIA_FOLDER
 const password = process.env.PASS
 const port = parseInt(process.env.PORT, 10)
+
+const MEDIA_DIR = path.join(__dirname, mediaFolder)
 
 const vlc = new VLC({
   host,
@@ -17,8 +22,11 @@ const vlc = new VLC({
 const commander = new Commander(new CecMonitor())
 const remote = new Remote()
 
-vlc.addToQueue('/Users/varhope/Downloads/03x01 - Sileny Homer.mp4')
-vlc.addToQueue('/Users/varhope/Downloads/03x02 - Liza na stope zloradu.mp4')
+fs.readdirSync(MEDIA_DIR).forEach(file => {
+  const media = `${MEDIA_DIR}/${file}`
+  console.log('Adding media to playlist:', media)
+  vlc.addToQueue(media)
+})
 
 vlc.playlistNext()
 
