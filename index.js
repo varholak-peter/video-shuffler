@@ -37,7 +37,7 @@ const mediaMap = new Map()
  * @param {string} name string that starts with 00x00 format
  * @returns 4 character id
  */
-const getMediaKey = (name) => `${name[0]}${name[1]}${name[3]}${name[4]}` 
+const getMediaKey = (name) => `${name[0]}${name[1]}${name[3]}${name[4]}`
 
 fs.readdirSync(MEDIA_DIR).forEach(file => {
   const media = `${MEDIA_DIR}/${file}`
@@ -100,7 +100,9 @@ monitor.on(CECMonitor.EVENTS.USER_CONTROL_PRESSED, async ({ data }) => {
     numberCode = ''
   }
 
-  updateStatus(status)
+  if (status) {
+    updateStatus(status)
+  }
 })
 
 vlc.on('update', updateStatus);
