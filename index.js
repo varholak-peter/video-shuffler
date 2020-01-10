@@ -87,7 +87,10 @@ monitor.on(CECMonitor.EVENTS.USER_CONTROL_PRESSED, async ({ data }) => {
       numberCodeTimeout = setTimeout(() => {
         numberCode = ''
       }, 3000)
-    } else if (numberCode === '9999') {
+      return
+    }
+
+    if (numberCode === '9999') {
       console.log('toggleRandom')
       status = await vlc.toggleRandom()
     } else if (numberCode === '0000') {
