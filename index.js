@@ -26,6 +26,7 @@ const vlc = new VLC({
 const monitor = new CECMonitor("custom-osdname", {});
 
 let currentTime = 0;
+let isCecTvAvailable = false;
 let isStarted = false;
 let numberCode = "";
 let numberCodeTimeout = null;
@@ -69,6 +70,8 @@ monitor.on(CECMonitor.EVENTS.REPORT_POWER_STATUS, async ({ data, source }) => {
   if (isStarted || source !== CEC.LogicalAddress.TV) {
     return;
   }
+
+  isCecTvAvailable = true;
 
   if (data.str === "ON") {
     isStarted = true;
@@ -137,6 +140,15 @@ monitor.on(CECMonitor.EVENTS.USER_CONTROL_PRESSED, async ({ data }) => {
 });
 
 vlc.on("update", updateStatus);
+
+// Fallback in case there is no TV
+setTimeout(() => {
+  if (isCecTvAvailable) {
+    return;
+  }
+
+  vlc.playlistNext();
+}, 15000);
 
 process.on("SIGINT", function() {
   vlc.stop();
